@@ -1,0 +1,66 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<meta name="Keywords" content="" />
+	<meta name="description" content="" />
+	<link rel="stylesheet" type="text/css" href="skins/focus.css" media="all" />
+	<title>OYD_Focus Demo</title>
+</head>
+<body>
+    <h1 style="font-size: 20px;line-height: 40px;text-align: center">OYD焦点图轮播</h1>
+    <pre>
+ * @options
+ *      beginSlider: 0,                    //初始图片
+ *      focusHead: "",                     //焦点图标题
+ *      counterNav: true,                  //进度与图片说明栏开启
+ *      controlNav: "thumb",               //缩略图索引开启
+ *      thumbCount: 5,                     //缩略图数量
+ *      autoPlay: true                     //自动播放开启
+ *      pauseTime:4000                     //默认自动播放间隔
+    </pre>
+    <div class="focusBlk">
+        <div id="focus">
+            <img src="pic/a.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/b.jpg" alt="" title="美丽的西藏美丽的西藏"/>
+            <img src="pic/c.jpg" alt="" title="美丽的西藏"/>
+            <img src="pic/d.jpg" alt="" title="美丽的西藏风光"/>
+            <img src="pic/e.jpg" alt="" title="藏区风光"/>
+            <img src="pic/e.jpg" alt="" title="添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="藏区风光"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="藏区风光"/>
+            <img src="pic/e.jpg" alt="" title="在这里添加图片说明"/>
+            <img src="pic/e.jpg" alt="" title="测试截字测试截字测试截字测试截字测试截字测试截字测试截字测试截字测试截字测试截字"/>
+        </div>
+    </div>
+
+    <p style="line-height: 40px">特色与改进:</p>
+    <ol style="padding: 20px;list-style: decimal outside none; margin-left: 20px;">
+        <li>自适应外层容器大小</li>
+        <li>循环切换</li>
+        <li>自动播放</li>
+        <li>可设置自动播放速度</li>
+        <li>可选择添加焦点图标题、计数进度、缩略图</li>
+        <li>图片说明超出长度自动截字</li>
+        <li>DOM结构简单</li>
+    </ol>
+
+
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="js/focus.js"></script>
+    <script type="text/javascript">
+        $(window).load(function(){
+             $('#focus').OYD_Focus({focusHead:"青藏高原美图",thumbCount:5,controlNav:"thumb",counterNav:true});
+         });
+    </script>
+</body>
+</html>
