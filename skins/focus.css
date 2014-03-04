@@ -10,7 +10,7 @@ h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
 
 .focusBlk{
     background: #E4E4E4;
-    width: 60%;
+    width: 30%;
     margin: 10px auto;
     overflow: hidden;
     min-height: 1px;
@@ -118,8 +118,9 @@ h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
 }
 #focus-thumbsLeft{
      background: url("images/focus-left.png") no-repeat scroll 0 0;
-     left: -20px;
- }
+     left: 0;
+     _left: -20px;
+}
 #focus-thumbsLeft:hover{
     background-position: 0 -34px;
 }

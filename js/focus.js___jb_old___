@@ -6,7 +6,7 @@
  */
 
 /**
- * 仿http://fashion.sina.com.cn/s/2013-10-28/220326550.shtml 焦点图
+ * 仿http://fashion.sina.com.cn/s/2013-10-28/220326550.shtml?qq-pf-to=pcqq.c2c 焦点图
  * @DOM
  *      <div id="focus">
  *          <img src="" title="">
@@ -41,8 +41,7 @@
                 totalSlides: 0,       //图片总数
                 currentImg: "",       //当前图片地址
                 currentSlider: 0,     //当前图片计数器
-                imgItem: [],
-                barLeft: 0
+                imgItem: []
             };
 
             var focus = $(this);
@@ -102,12 +101,12 @@
             if (opt.counterNav) {
                 focus.after(counterWrap);
                 var counter = focus.next(".focus-info");
-                $(".focus-title").width(Math.ceil((focusWidth - 110) / 16) + "em");      //标题向下取整截字
+                $(".focus-title").width(Math.ceil((focusWidth - 110) / 16) + "em");
             }
 
             //缩略图导航
             var controlWrap = $('<div class="focus-control"></div>'),
-                thumbWrap = $('<a id="focus-thumbsLeft"></a><div class="focus-thumb"></div><div class="focus-bar"><span></span></div><a id="focus-thumbsRight"></a>');
+                thumbWrap = $('<a id="focus-thumbsLeft"></a><div class="focus-thumb"></div><div class="focus-bar"></div><a id="focus-thumbsRight"></a>');
 
             if (opt.controlNav != "") {
                 focus.parent().append(controlWrap);
@@ -116,49 +115,40 @@
                 if (opt.controlNav == "thumb") {
                     controlBlk.append(thumbWrap);
                     var thumbBlk = controlBlk.children(".focus-thumb"),
-                        thumbCount = opt.thumbCount;
-
-
-                    var thumbList = "";       //生成缩略图列表DOM
+                        thumbCount = opt.thumbCount,
+                        barBlk = controlBlk.children(".focus-bar");
+                    var thumbList = "";
                     for (var i = 0; i < vars.totalSlides; i++) {
                         thumbList += '<li><img src="' + vars.imgItem[i].imgSrc + '" alt=""/><b></b></li>'
                     }
                     thumbBlk.append($('<ul>' + thumbList + '</ul>'));
-
                     var thumb = thumbBlk.find("li"),
                         thumbUl = thumbBlk.find("ul"),
-                        thumbBlkWidth = focusWidth - 40,           //-40左右按钮宽度
-                        thumbWidth = thumbBlkWidth / thumbCount - 10;    //除以缩略图个数，-10间距，得到每个缩略图外框宽
-
-                    thumbBlk.width(thumbBlkWidth).height(thumbWidth * 0.75 + 10);  //缩略图可视区域宽、高
+                        thumbBlkWidth = focusWidth - 40,
+                        thumbWidth = thumbBlkWidth / thumbCount - 10;
+                    thumbBlk.width(thumbBlkWidth).height(thumbWidth * 0.75 + 10);
                     thumb.width(thumbWidth).height(thumbWidth * 0.75).eq(0).addClass("focus-active"); //缩略图4:3
-                    controlBlk.find("a").css("top", (thumbWidth * 0.75 + 10 - 34) / 2); //左右按钮上下居中
-
+                    controlBlk.find("a").css("top", (thumbWidth * 0.75 + 10 - 34) / 2);
                     var timer;
-                    controlBlk.find("#focus-thumbsLeft").on({     //缩略图区域向左移动
-                        mousedown: function () {
-                            var o = $(this);
-                            timer = setInterval(function () {
-                                o.pixMove("left", thumbUl)
-                            }, 10)
-                        },
-                        mouseup: function () {
-                            var o = $(this);
-                            clearInterval(timer);
-                        }
+                    controlBlk.find("#focus-thumbsLeft").on("mousedown", function () {
+                        var o = $(this);
+                        timer = setInterval(function () {
+                            o.pixMove("left", thumbUl)
+                        }, 10);
                     });
-
-                    controlBlk.find("#focus-thumbsRight").on({   //缩略图区域向右移动
-                        mousedown: function () {
-                            var o = $(this);
-                            timer = setInterval(function () {
-                                o.pixMove("right", thumbUl)
-                            }, 10);
-                        },
-                        mouseup: function () {
-                            var o = $(this);
-                            clearInterval(timer);
-                        }
+                    controlBlk.find("#focus-thumbsLeft").on("mouseup", function () {
+                        var o = $(this);
+                        clearInterval(timer);
+                    });
+                    controlBlk.find("#focus-thumbsRight").on("mousedown", function () {
+                        var o = $(this);
+                        timer = setInterval(function () {
+                            o.pixMove("right", thumbUl)
+                        }, 10);
+                    });
+                    controlBlk.find("#focus-thumbsRight").on("mouseup", function () {
+                        var o = $(this);
+                        clearInterval(timer);
                     });
 
                     //缩略图宽高自适应
@@ -173,7 +163,7 @@
                             thumbImg.height(0.75 * thumbWidth)
                         }
                     });
-                    //缩略图点击切换大图
+
                     thumb.on("click", function () {
                         var thumb = $(this),
                             current = vars.currentSlider,
@@ -183,44 +173,8 @@
                         n = thumbNum - current;
                         focusMove(n);
                         vars.currentSlider = thumbNum;
-                    });
-                    var track = controlBlk.children(".focus-bar"),
-                        bar = track.children("span"),
-                        iMouse = {},
-                        iPosition = {star: 0, now: 0},
-                        ratio = ((thumbWidth + 10) * (vars.totalSlides - 1) - thumbBlkWidth) / (thumbBlkWidth - bar.width()),  //缩略图总宽与可视区宽度比值
-                        iScroll = 0;
-                    bar.bind("mousedown", star);
-                    track.bind("mousedup", drag);
-
+                    })
                 }
-            }
-
-            function star(event) {
-                $("body").addClass("noSelect");
-                var barLeft = parseInt(bar.css("left"), 10);
-                iMouse.start = event.pageX;
-                iPosition.start = barLeft;
-                $(document).bind('mousemove', drag);
-                $(document).bind('mouseup', end);
-
-            }
-
-            function end() {
-                $("body").removeClass("noSelect");
-                $(document).unbind('mousemove', drag);
-                $(document).unbind('mouseup', end);
-                bar.unbind('mouseup', end);
-                document.ontouchmove = document.ontouchend = null;
-            }
-
-            function drag(event) {
-                iPosition.now = Math.min((focusWidth - bar.width()), Math.max((iPosition.start + event.pageX - iMouse.start), 0));
-
-                iScroll = iPosition.now * ratio;
-                thumbUl.css("left", -iScroll);
-                bar.css("left", iPosition.now);
-
             }
 
             //检测鼠标位置，焦点图自动切换、悬停暂停、离开继续、点击切换
@@ -236,9 +190,9 @@
                     var focusLeft = $(this).offset().left;
                     x = event.pageX - focusLeft;
                     if (x < focusWidth / 2) {
-                        $(this).css("cursor", "url('http://i2.sinaimg.cn/dy/deco/2012/1218/hdfigure/hd_left_arrow.cur'),pointer");
+                        $(this).css("cursor", "url('http://i3.sinaimg.cn/dy/deco/2012/1218/hdfigure/hd_left_arrow.cur') ,pointer");
                     } else {
-                        $(this).css("cursor", "url('http://i2.sinaimg.cn/dy/deco/2012/1218/hdfigure/hd_right_arrow.cur'),pointer")
+                        $(this).css("cursor", "url('http://i3.sinaimg.cn/dy/deco/2012/1218/hdfigure/hd_right_arrow.cur') ,pointer")
                     }
                 },
                 mouseover: function () {
@@ -259,6 +213,7 @@
                     playTime = setInterval(focusMove, opt.pauseTime)
                 }
             });
+
 
             //焦点图移动n位，正数左移，负数右移
             function focusMove(n) {
@@ -290,22 +245,18 @@
                 thumb.eq(vars.currentSlider).addClass("focus-active").siblings("li").removeClass("focus-active");
                 var activeLeft = thumb.eq(vars.currentSlider).position().left,    //缩略图选中项左位移
                     defaultPosition = Math.ceil(opt.thumbCount / 2),              //选中项固定位置：居中
-                    activePosition = activeLeft / thumb.outerWidth(true),          //选中项位置
-                    ulLeft;
-
+                    activePosition = activeLeft / thumb.outerWidth(true);          //选中项位置
                 if (vars.totalSlides > opt.thumbCount) {
 
                     if (activePosition <= vars.totalSlides - defaultPosition) {          //选中项位置
                         if (activePosition < defaultPosition) {                         //选中项在固定位置前时，不滚动
-                            ulLeft = 0;
+                            thumbUl.animate({left: 0})
                         } else {
-                            ulLeft = -activeLeft + (defaultPosition - 1) * thumb.outerWidth(true)
+                            thumbUl.animate({left: -activeLeft + (defaultPosition - 1) * thumb.outerWidth(true) + "px"})
                         }          //选中项在固定位置后，滚动到固定项位置
                     } else {
-                        ulLeft = -(vars.totalSlides - opt.thumbCount) * thumb.outerWidth(true);
+                        thumbUl.animate({left: -(vars.totalSlides - opt.thumbCount) * thumb.outerWidth(true) + "px"})
                     }
-                    thumbUl.animate({left: ulLeft});
-                    bar.animate({left: -ulLeft / ratio});
                 }
             }
 
@@ -322,7 +273,6 @@
                     if (l > obj.parent().width() - chsW) {
                         l -= 10;
                         obj.css({left: l + "px"});
-                        bar.css({left: -l / ratio + "px"});
                     } else {
                         obj.css({left: obj.parent().width() - chsW});
                     }
@@ -331,12 +281,10 @@
                     if (l < 0) {
                         l += 10;
                         obj.css({left: l + "px"});
-                        bar.css({left: -l / ratio + "px"});
                     } else {
                         obj.css({left: 0});
                     }
                 }
-
             };
 
             //根据当前图片序号，构建滑块
@@ -344,7 +292,7 @@
                 return $(vars.imgItem[currentSlider].slider)
             }
 
-            //向左滑动n张图片
+            //向左滑动n张图片   未来需要实现循环滚动
             function slideLeft(n) {
 
                 var currentSlider = createSlider(vars.currentSlider),
@@ -368,7 +316,7 @@
                 counter.find(".current-counter").text(vars.currentSlider + 1);
             }
 
-            //向右滑动n张图片
+            //向右滑动n张图片    未来需要实现循环滚动
             function slideRight(n) {
                 var currentSlider = createSlider(vars.currentSlider),  //当前图片：切换前图片
                     slideRight = createSlider(vars.currentSlider - n); //切换后的图片
@@ -390,8 +338,7 @@
                 focus.height(slideRight.height());
                 $(".focus-title").text(vars.imgItem[vars.currentSlider].imgTitle);
                 counter.find(".current-counter").text(vars.currentSlider + 1);
-            }
-
+             }
             function focusRun(slider, kids, settings, nudge) {
             }
         })
