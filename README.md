@@ -7,22 +7,22 @@ myFocus是一个模仿[新浪](http://fashion.sina.com.cn/s/2013-10-28/220326550
 
 ##参数设置：
 	
-	+beginSlider: 0,                    //初始图片
-	+focusHead: "",                     //焦点图标题
-	+counterNav: true,                  //进度与图片说明栏开启
-	+controlNav: "thumb",               //缩略图索引开启
-	+thumbCount: 5,                     //缩略图数量
-	+autoPlay: true                     //自动播放开启
-	+pauseTime:4000                     //默认自动播放间隔
+	beginSlider: 0,                    //初始图片
+	focusHead: "",                     //焦点图标题
+	counterNav: true,                  //进度与图片说明栏开启
+	controlNav: "thumb",               //缩略图索引开启
+	thumbCount: 5,                     //缩略图数量
+	autoPlay: true                     //自动播放开启
+	pauseTime:4000                     //默认自动播放间隔
 
 ##DOM结构与调用：
 	
-	&lt;div id="focus">
-		&lt;img src="" title="">
-		&lt;img src="" title="">
-		&lt;img src="" title="">
-	&lt;/div>
+	<div id="focus">
+		<img src="" title="">
+		<img src="" title="">
+		<img src="" title="">
+	</div>
 	
-	&lt;script type="text/javascript">
+	<script type="text/javascript">
 		$("#focus").OYD_Focus(options);
-	&lt;/script>
+	</script>
